@@ -1,234 +1,167 @@
-# Authentication API Service
+# TEDx Authentication System
 
-A secure authentication service built with Node.js, Express, and PostgreSQL, featuring JWT-based authentication, Google OAuth integration, and role-based access control.
+A complete authentication system with a modern frontend and secure backend API, designed for independent deployment and scalability.
 
-## Features
+## 🏗️ Project Structure
 
-- Email & password authentication
-- Google OAuth integration
-- JWT-based session management with refresh tokens
-- Role-based access control (admin/user)
-- Secure password hashing with bcrypt
-- Input validation and sanitization
-- Error handling middleware
-- PostgreSQL database with Sequelize ORM
-- Docker support for PostgreSQL and pgAdmin
-- CORS enabled for frontend integration
-
-## Prerequisites
-
-- Node.js (v14 or higher)
-- Docker and Docker Compose
-- Google OAuth credentials
-
-## Setup
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd auth-service
+```
+tedx/
+├── frontend/                # Modern React-like frontend
+│   ├── index.html          # Main HTML file
+│   ├── styles.css          # Modern CSS with theming
+│   ├── app.js              # Application logic
+│   ├── config.js           # Configuration management
+│   ├── package.json        # Frontend dependencies
+│   ├── render.json         # Render static site config
+│   └── README.md           # Frontend documentation
+│
+├── backend/                 # Node.js API server
+│   ├── src/                # Source code
+│   ├── public/             # Static files
+│   ├── package.json        # Backend dependencies
+│   ├── render.yaml         # Render web service config
+│   └── README.md           # Backend documentation
+│
+└── README.md               # This file
 ```
 
-2. Install dependencies:
+## 🚀 Deployed Applications
+
+### Frontend (Static Site)
+- **URL**: [https://tedx-frontend.onrender.com](https://tedx-frontend.onrender.com)
+- **Hosting**: Render Static Site
+- **Features**: Modern UI, responsive design, theme switching
+
+### Backend (API Server)
+- **URL**: `https://your-backend-app.onrender.com` (to be deployed)
+- **Hosting**: Render Web Service
+- **Features**: JWT authentication, Google OAuth, PostgreSQL
+
+## 🔧 Quick Setup
+
+### Deploy Frontend (Already Done ✅)
+The frontend is already deployed at: https://tedx-frontend.onrender.com
+
+### Deploy Backend (Next Steps)
+
+1. **Push to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Organize backend for Render deployment"
+   git push origin main
+   ```
+
+2. **Deploy on Render**:
+   - Go to [Render Dashboard](https://dashboard.render.com)
+   - Click "New" → "Web Service"
+   - Connect your GitHub repository
+   - Set root directory to `backend`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+
+3. **Set Environment Variables** in Render:
+   ```
+   NODE_ENV=production
+   DB_HOST=your_postgres_host
+   DB_PORT=5432
+   DB_NAME=your_database_name
+   DB_USER=your_database_user
+   DB_PASSWORD=your_database_password
+   JWT_SECRET=your_jwt_secret_key
+   JWT_REFRESH_SECRET=your_jwt_refresh_secret_key
+   JWT_EXPIRES_IN=1h
+   JWT_REFRESH_EXPIRES_IN=7d
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   GOOGLE_CALLBACK_URL=https://your-backend-app.onrender.com/api/auth/google/callback
+   FRONTEND_URL=https://tedx-frontend.onrender.com
+   ```
+
+4. **Update Frontend Configuration**:
+   - Visit: https://tedx-frontend.onrender.com
+   - Click the settings gear icon (⚙️)
+   - Enter your backend URL: `https://your-backend-app.onrender.com`
+   - Save configuration
+
+## 🌟 Features
+
+### Frontend Features
+- ✅ Modern, responsive design
+- ✅ Dark/Light theme toggle
+- ✅ User authentication (login/signup)
+- ✅ Google OAuth integration
+- ✅ Admin panel for user management
+- ✅ Real-time updates
+- ✅ Mobile-first design
+- ✅ Configuration management
+
+### Backend Features
+- ✅ JWT-based authentication
+- ✅ Google OAuth integration
+- ✅ PostgreSQL database
+- ✅ Role-based access control
+- ✅ Password hashing with bcrypt
+- ✅ Input validation
+- ✅ CORS protection
+- ✅ Health check endpoint
+- ✅ Production-ready configuration
+
+## 🔐 Security
+
+- **Frontend**: XSS protection, secure token storage, input validation
+- **Backend**: JWT tokens, password hashing, CORS protection, environment variables
+- **Database**: PostgreSQL with secure connection, role-based access
+
+## 📱 Browser Support
+
+- ✅ Chrome 60+
+- ✅ Firefox 55+
+- ✅ Safari 12+
+- ✅ Edge 79+
+- ✅ Mobile browsers
+
+## 🛠️ Development
+
+### Frontend Development
 ```bash
+cd frontend
+python3 -m http.server 8080
+# Visit: http://localhost:8080
+```
+
+### Backend Development
+```bash
+cd backend
 npm install
-```
-
-3. Create a `.env` file in the root directory with the following configuration:
-```env
-# Server Configuration
-PORT=3000
-NODE_ENV=development
-
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5434
-DB_NAME=auth_service
-DB_USER=auth_user
-DB_PASSWORD=auth_password
-
-# JWT Configuration
-JWT_SECRET=your_jwt_secret
-JWT_REFRESH_SECRET=your_jwt_refresh_secret
-JWT_EXPIRES_IN=1h
-JWT_REFRESH_EXPIRES_IN=7d
-
-# Google OAuth Configuration
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_CALLBACK_URL=http://localhost:3000/api/auth/google/callback
-FRONTEND_URL=http://localhost:3000
-```
-
-4. Start the PostgreSQL and pgAdmin containers:
-```bash
-docker-compose up -d
-```
-
-5. Create the admin user:
-```bash
-npx sequelize-cli db:seed:all
-```
-
-6. Start the server:
-```bash
-# Development mode
 npm run dev
-
-# Production mode
-npm start
+# API: http://localhost:3000
 ```
 
-## Database Access
+## 📚 Documentation
 
-### PostgreSQL
-- Host: localhost
-- Port: 5434
-- Database: auth_service
-- Username: auth_user
-- Password: auth_password
+- **Frontend**: See `frontend/README.md`
+- **Backend**: See `backend/README.md`
+- **API Endpoints**: See backend documentation
 
-### pgAdmin
-- URL: http://localhost:5050
-- Email: admin@admin.com
-- Password: admin
-
-## Default Admin Account
-
-An admin account is automatically created during setup:
-- Email: admin@example.com
-- Password: admin123
-
-Use these credentials to access admin-only features.
-
-## API Endpoints
-
-### Authentication
-- `POST /api/auth/signup` - Create a new user account
-  ```json
-  {
-    "name": "Test User",
-    "email": "test@example.com",
-    "password": "password123"
-  }
-  ```
-
-- `POST /api/auth/login` - Login with email and password
-  ```json
-  {
-    "email": "test@example.com",
-    "password": "password123"
-  }
-  ```
-
-- `GET /api/auth/google` - Initiate Google OAuth login
-- `GET /api/auth/google/callback` - Google OAuth callback
-- `POST /api/auth/refresh-token` - Refresh access token
-  ```json
-  {
-    "refreshToken": "your_refresh_token"
-  }
-  ```
-
-- `POST /api/auth/logout` - Logout user
-  ```json
-  {
-    "refreshToken": "your_refresh_token"
-  }
-  ```
-
-### User Management
-- `GET /api/users/me` - Get current user profile
-- `PATCH /api/users/me` - Update current user profile
-  ```json
-  {
-    "name": "Updated Name",
-    "email": "updated@example.com"
-  }
-  ```
-
-### Admin Routes
-- `GET /api/users` - Get all users (admin only)
-- `PATCH /api/users/:userId/role` - Update user role (admin only)
-  ```json
-  {
-    "role": "admin" // or "user"
-  }
-  ```
-- `DELETE /api/users/:userId` - Delete user (admin only)
-
-## Security Features
-
-- Secure password hashing with bcrypt
-- JWT token-based authentication
-- Input validation and sanitization
-- Password requirements:
-  - Minimum 6 characters
-  - Must contain at least one number
-- CORS protection
-- Role-based access control
-- Refresh token rotation
-- Secure session management
-
-## Error Handling
-
-The API returns appropriate HTTP status codes and error messages:
-
-- `400` - Bad Request (validation errors, invalid input)
-- `401` - Unauthorized (invalid credentials, expired token)
-- `403` - Forbidden (insufficient permissions)
-- `404` - Not Found
-- `500` - Internal Server Error
-
-## Development
-
-### Database Migrations and Seeds
-```bash
-# Run migrations
-npm run migrate
-
-# Create admin user
-npx sequelize-cli db:seed:all
-
-# Undo admin user creation
-npx sequelize-cli db:seed:undo
-```
-
-### Testing
-```bash
-npm test
-```
-
-## Docker Configuration
-
-The project includes a `docker-compose.yml` file that sets up:
-- PostgreSQL database
-- pgAdmin web interface
-
-To rebuild containers:
-```bash
-docker-compose down
-docker-compose up -d --build
-```
-
-## Frontend Integration
-
-A simple HTML/JavaScript frontend is provided in `public/index.html` for testing the authentication service. It includes:
-- User registration
-- Login form
-- Google Sign-In
-- Profile management
-- Token management
-- Automatic token refresh
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🎯 Next Steps
+
+1. **Deploy Backend**: Follow the deployment steps above
+2. **Update Google OAuth**: Add your backend URL to Google Console
+3. **Test Integration**: Verify frontend and backend work together
+4. **Custom Domain**: (Optional) Add custom domains to both services
+
+---
+
+**Built with ❤️ for the TEDx community** 
